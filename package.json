@@ -1,22 +1,43 @@
 {
-  "main": "node_modules/expo/AppEntry.js",
   "scripts": {
-    "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
+    "start": "react-native start",
+    "android": "react-native run-android",
+    "ios": "react-native run-ios",
     "web": "expo start --web",
     "eject": "expo eject"
   },
   "dependencies": {
+    "@expo-google-fonts/lato": "^0.2.0",
+    "@expo-google-fonts/oswald": "^0.2.0",
+    "@react-native-community/masked-view": "^0.1.11",
+    "@react-native-firebase/app": "^12.9.3",
+    "@react-native-firebase/auth": "^12.9.3",
+    "@react-native-firebase/firestore": "^12.9.3",
+    "@react-native-google-signin/google-signin": "^7.0.1",
+    "@react-navigation/bottom-tabs": "^6.0.9",
+    "@react-navigation/native": "^6.0.6",
+    "@react-navigation/stack": "^6.0.11",
     "expo": "~43.0.0",
-    "expo-status-bar": "~1.1.0",
+    "expo-splash-screen": "~0.13.3",
+    "expo-status-bar": "^1.1.0",
+    "expo-updates": "~0.10.5",
+    "moment": "^2.29.1",
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-native": "0.64.2",
-    "react-native-web": "0.17.1"
+    "react-native-gesture-handler": "^1.10.3",
+    "react-native-month-year-picker": "^1.8.0",
+    "react-native-paper": "^4.9.2",
+    "react-native-reanimated": "^2.2.3",
+    "react-native-safe-area-context": "^3.3.2",
+    "react-native-screens": "^3.8.0",
+    "react-native-web": "0.17.1",
+    "styled-components": "^5.3.3"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"
   },
-  "private": true
+  "private": true,
+  "name": "varela_funcionales",
+  "version": "1.0.0"
 }
