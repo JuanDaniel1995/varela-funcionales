@@ -1,6 +1,5 @@
 import styled from "styled-components/native";
 import { Button, TextInput } from "react-native-paper";
-import { GoogleSigninButton } from '@react-native-google-signin/google-signin';
 
 import { colors } from "../../../infrastructure/theme/colors";
 import { Text } from "../../../components/typography/text.component";
@@ -31,7 +30,10 @@ export const AuthInput = styled(TextInput)`
   width: 100%;
 `;
 
-export const GoogleButton = styled(GoogleSigninButton)`
+export const ExternalLoginButton = styled(Button).attrs({
+  color: colors.brand.secondary,
+})`
+  padding: ${(props) => props.theme.space[2]} 0;
   width: 100%;
 `;
 
