@@ -1,6 +1,7 @@
 {
   "expo": {
     "name": "varela_funcionales",
+    "displayName": "Varela funcionales",
     "slug": "varela_funcionales",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -23,7 +24,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.juan_daniel95.varela_funcionales"
     },
     "web": {
       "favicon": "./assets/favicon.png"
