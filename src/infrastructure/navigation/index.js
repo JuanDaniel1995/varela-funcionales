@@ -18,7 +18,6 @@ export const Navigation = () => {
       if (appState.current.match(/inactive|background/) && nextAppState === "active") {
         const firebaseUser = auth().currentUser;
         if (firebaseUser?.emailVerified && !currentUser) {
-          console.log('asd')
           const { displayName, email, photoURL, uid } = firebaseUser;
           const user = { displayName, email, photoURL, uid };
           setCurrentUser(user);
