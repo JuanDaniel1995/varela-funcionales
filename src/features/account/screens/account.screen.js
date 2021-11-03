@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import { ActivityIndicator, Colors, Paragraph } from "react-native-paper";
-import { GoogleSigninButton } from '@react-native-google-signin/google-signin';
 
 import { Spacer } from "../../../components/spacer/spacer.component";
 import { SafeArea } from "../../../components/utility/safe-area.component";
@@ -11,11 +10,11 @@ import {
   AuthButton,
   Title,
   LoadingBackground,
-  GoogleButton,
+  ExternalLoginButton,
 } from "../components/account.styles";
 
 export const AccountScreen = ({ navigation }) => {
-  const { isLoading, onGoogleLogin } = useContext(AuthenticationContext);
+  const { isLoading, clearError, onGoogleLogin, onFacebookLogin } = useContext(AuthenticationContext);
   return (
     !isLoading ? (
       <SafeArea>
@@ -26,7 +25,10 @@ export const AccountScreen = ({ navigation }) => {
               <AuthButton
                 icon="lock-open-outline"
                 mode="contained"
-                onPress={() => navigation.navigate("Login")}
+                onPress={() => {
+                  clearError();
+                  navigation.navigate("Login")
+                }}
               >
                 Iniciar sesión
               </AuthButton>
@@ -35,7 +37,10 @@ export const AccountScreen = ({ navigation }) => {
               <AuthButton
                 icon="email"
                 mode="contained"
-                onPress={() => navigation.navigate("Register")}
+                onPress={() => {
+                  clearError();
+                  navigation.navigate("Register")
+                }}
               >
                 Crear cuenta
               </AuthButton>
@@ -46,19 +51,21 @@ export const AccountScreen = ({ navigation }) => {
               </Paragraph>
             </Spacer>
             <Spacer size="large">
-              <GoogleButton onPress={onGoogleLogin}
-                size={GoogleSigninButton.Size.Wide}
-                color={GoogleSigninButton.Color.Light} />
+              <ExternalLoginButton
+                icon="google"
+                mode="contained"
+                onPress={onGoogleLogin}>
+                Google
+              </ExternalLoginButton>
             </Spacer>
-            {/* <Spacer size="large">
-            <AuthButton
-              icon="facebook"
-              mode="contained"
-              onPress={() => navigation.navigate("Register")}
-            >
-              Facebook
-            </AuthButton>
-          </Spacer> */}
+            <Spacer size="large">
+              <ExternalLoginButton
+                icon="facebook"
+                mode="contained"
+                onPress={onFacebookLogin}>
+                Facebook
+              </ExternalLoginButton>
+            </Spacer>
           </AccountContainer>
         </AccountBackground>
       </SafeArea>

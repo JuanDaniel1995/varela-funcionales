@@ -2,6 +2,7 @@ import React, { useState, useEffect, createContext } from "react";
 import {
   GoogleSignin,
 } from '@react-native-google-signin/google-signin';
+import { LoginManager, AccessToken } from 'react-native-fbsdk-next';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 
@@ -41,8 +42,10 @@ export const AuthenticationContextProvider = ({ children }) => {
 
   const onAuthStateChanged = (user) => {
     if (user) {
-      const { displayName, email, photoURL, uid, emailVerified } = user;
-      if (emailVerified) saveUserInfo({ displayName, email, photoURL, uid });
+      const { displayName, email, photoURL, uid, emailVerified, providerData } = user;
+      const providerId = providerData[0]?.providerId;
+      const isInternalLogin = providerId === 'password';
+      if (emailVerified || !isInternalLogin) saveUserInfo({ displayName, email, photoURL, uid });
       else {
         setIsLoading(false);
       }
@@ -90,6 +93,22 @@ export const AuthenticationContextProvider = ({ children }) => {
     }
   }
 
+  const onFacebookLogin = async () => {
+    setIsLoading(true);
+    try {
+      const result = await LoginManager.logInWithPermissions(['public_profile', 'email']);
+      if (result.isCancelled) {
+        throw 'User cancelled the login process';
+      }
+      const data = await AccessToken.getCurrentAccessToken();
+      const facebookCredential = auth.FacebookAuthProvider.credential(data.accessToken);
+      await auth().signInWithCredential(facebookCredential);
+    } catch (e) {
+      setError(e.toString());
+      setIsLoading(false);
+    }
+  }
+
   const onRegister = async (email, password, displayName, repeatedPassword) => {
     clearNotification();
     if (password !== repeatedPassword) {
@@ -103,6 +122,7 @@ export const AuthenticationContextProvider = ({ children }) => {
       user = auth().currentUser;
       await user.updateProfile({ displayName });
       await user.sendEmailVerification();
+      await onLogout();
       setNotification('Se ha enviado un correo para verificar tu correo');
     } catch (e) {
       setError(e.toString());
@@ -129,6 +149,7 @@ export const AuthenticationContextProvider = ({ children }) => {
         notification,
         onLogin,
         onGoogleLogin,
+        onFacebookLogin,
         onRegister,
         onLogout,
         clearError,
