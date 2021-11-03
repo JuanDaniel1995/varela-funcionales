@@ -10,6 +10,8 @@ import { UsersContextProvider } from "../../services/users/users.context";
 import { MeasuresContextProvider } from "../../services/measures/measures.context";
 import { SchedulesContextProvider } from "../../services/schedules/schedules.context";
 
+import { colors } from "../theme/colors";
+
 const Tab = createBottomTabNavigator();
 
 const TAB_ICON = {
@@ -25,8 +27,8 @@ const createScreenOptions = ({ route }) => {
       <Ionicons name={iconName} size={size} color={color} />
     ),
     headerShown: false,
-    tabBarActiveTintColor: "tomato",
-    tabBarInactiveTintColor: "gray"
+    tabBarActiveTintColor: colors.brand.primary,
+    tabBarInactiveTintColor: colors.brand.muted
   };
 };
 
