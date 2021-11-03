@@ -12,7 +12,7 @@ const days = [
   { key: 'tuesday', display: 'Martes' },
   { key: 'wednesday', display: 'Miércoles' },
   { key: 'thursday', display: 'Jueves' },
-  { key: 'friday', display: 'viernes' },
+  { key: 'friday', display: 'Viernes' },
   { key: 'saturday', display: 'Sábado' }
 ]
 
