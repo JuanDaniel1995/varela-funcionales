@@ -50,3 +50,17 @@ export const ErrorContainer = styled.View`
   margin-top: ${(props) => props.theme.space[2]};
   margin-bottom: ${(props) => props.theme.space[2]};
 `;
+
+export const NoSessionContainer = styled.View`
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const NoSessionButton = styled(Button).attrs({
+  color: colors.brand.primary,
+})`
+  marginTop: ${(props) => props.theme.space[3]};
+  padding: ${(props) => props.theme.space[2]} 0;
+  width: 60%;
+`;

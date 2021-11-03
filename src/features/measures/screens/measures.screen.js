@@ -6,11 +6,13 @@ import { FadeInView } from "../../../components/animations/fade.animation";
 import { SafeArea } from "../../../components/utility/safe-area.component";
 import { Spacer } from "../../../components/spacer/spacer.component";
 
+import { AuthenticationContext } from "../../../services/authentication/authentication.context";
 import { MeasuresContext } from "../../../services/measures/measures.context";
 
+import { NoSession } from "../../account/screens/no-session";
 import { Search } from "../components/search.component";
 import { UserMeasure } from "../components/user-measure-item.component";
-import { Container, Loading, LoadingContainer, MeasureInput, PeriodInput, PeriodContainer } from "../components/measures.styles";
+import { Container, Loading, LoadingContainer, PeriodInput, PeriodContainer } from "../components/measures.styles";
 import { MeasuresList } from "../components/measure-list.styles";
 
 import moment from 'moment';
@@ -25,6 +27,7 @@ export const MeasuresScreen = ({ navigation }) => {
     retrieveUserMeasures,
     clearMeasures,
   } = useContext(MeasuresContext);
+  const { isAuthenticated } = useContext(AuthenticationContext);
 
   const [expandedUsers, setExpandedUsers] = useState([]);
   const [uidFetched, setUidFetched] = useState(null);
@@ -63,13 +66,17 @@ export const MeasuresScreen = ({ navigation }) => {
     navigation.navigate("MeasuresDetail", { user, period })
   }
 
+  const redirectToLogin = () => {
+    navigation.push("MeasuresAccount", { module: "Measures" })
+  }
+
   useEffect(() => {
     setPeriod(moment(date).format("MM-YYYY"));
   }, [date])
 
   useEffect(() => {
-    retrieveUsers();
-  }, [])
+    if (isAuthenticated) retrieveUsers();
+  }, [isAuthenticated])
 
   useEffect(() => {
     if (!searchKeyword) setFilteredUsers(users);
@@ -79,6 +86,8 @@ export const MeasuresScreen = ({ navigation }) => {
       setFilteredUsers(userList)
     }
   }, [users, searchKeyword])
+
+  if (!isAuthenticated) return <NoSession redirectToLogin={redirectToLogin} />;
 
   return (
     isLoadingUsers ? (

@@ -2,16 +2,18 @@ import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 
-import { InfoNavigator } from "./info.navigator";
+import { SchedulesNavigator } from "./schedules.navigator";
 import { MeasuresNavigator } from "./measures.navigator";
 import { SettingsNavigator } from "./settings.navigator";
 
+import { UsersContextProvider } from "../../services/users/users.context";
 import { MeasuresContextProvider } from "../../services/measures/measures.context";
+import { SchedulesContextProvider } from "../../services/schedules/schedules.context";
 
 const Tab = createBottomTabNavigator();
 
 const TAB_ICON = {
-  HomeMenu: "md-home",
+  SchedulesMenu: "md-calendar",
   MeasuresMenu: "md-body",
   SettingsMenu: "md-settings",
 };
@@ -29,20 +31,21 @@ const createScreenOptions = ({ route }) => {
 };
 
 export const AppNavigator = () => (
-  <MeasuresContextProvider>
-    <Tab.Navigator
-
-      screenOptions={createScreenOptions}
-    >
-      <Tab.Screen name="HomeMenu" component={InfoNavigator} options={{
-        tabBarLabel: 'Inicio',
-      }} />
-      <Tab.Screen name="MeasuresMenu" component={MeasuresNavigator} options={{
-        tabBarLabel: 'Mediciones',
-      }} />
-      <Tab.Screen name="SettingsMenu" component={SettingsNavigator} options={{
-        tabBarLabel: 'Cuenta',
-      }} />
-    </Tab.Navigator>
-  </MeasuresContextProvider>
+  <UsersContextProvider>
+    <SchedulesContextProvider>
+      <MeasuresContextProvider>
+        <Tab.Navigator screenOptions={createScreenOptions}>
+          <Tab.Screen name="SchedulesMenu" component={SchedulesNavigator} options={{
+            tabBarLabel: 'Horarios',
+          }} />
+          <Tab.Screen name="MeasuresMenu" component={MeasuresNavigator} options={{
+            tabBarLabel: 'Mediciones',
+          }} />
+          <Tab.Screen name="SettingsMenu" component={SettingsNavigator} options={{
+            tabBarLabel: 'Cuenta',
+          }} />
+        </Tab.Navigator>
+      </MeasuresContextProvider>
+    </SchedulesContextProvider>
+  </UsersContextProvider>
 );

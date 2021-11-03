@@ -21,6 +21,14 @@ export const RegisterScreen = ({ navigation }) => {
   const [password, setPassword] = useState("");
   const [repeatedPassword, setRepeatedPassword] = useState("");
   const { onRegister, isLoading, error, notification, clearError, clearNotification } = useContext(AuthenticationContext);
+
+  const clearInputs = () => {
+    setEmail("");
+    setDisplayName("");
+    setPassword("");
+    setRepeatedPassword("");
+  }
+
   return (
     <SafeArea>
       <ScrollView>
@@ -80,7 +88,7 @@ export const RegisterScreen = ({ navigation }) => {
               <AuthButton
                 icon="email"
                 mode="contained"
-                onPress={() => onRegister(email, password, displayName, repeatedPassword)}
+                onPress={() => onRegister(email, password, displayName, repeatedPassword, clearInputs)}
                 disabled={!email || !displayName || !password || !repeatedPassword || isLoading}
                 loading={isLoading}
               >

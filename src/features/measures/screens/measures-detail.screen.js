@@ -10,7 +10,7 @@ import { MeasuresContext } from "../../../services/measures/measures.context";
 import { SuggestionsContainer, MeasureButton } from "../components/measures-detail.styles";
 import { Container, Loading, LoadingContainer, MeasureInput } from "../components/measures.styles";
 
-const MeasuresDetailScreen = ({ navigation, route }) => {
+export const MeasuresDetailScreen = ({ navigation, route }) => {
   const {
     toBeMeasuredSuggestions,
     isLoadingToBeMeasuredSuggestions,
@@ -90,5 +90,3 @@ const MeasuresDetailScreen = ({ navigation, route }) => {
       )
   )
 }
-
-export default MeasuresDetailScreen
