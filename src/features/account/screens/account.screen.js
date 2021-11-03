@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { ActivityIndicator, Colors, Paragraph } from "react-native-paper";
 
 import { Spacer } from "../../../components/spacer/spacer.component";
@@ -13,8 +13,14 @@ import {
   ExternalLoginButton,
 } from "../components/account.styles";
 
-export const AccountScreen = ({ navigation }) => {
-  const { isLoading, clearError, onGoogleLogin, onFacebookLogin } = useContext(AuthenticationContext);
+export const AccountScreen = ({ navigation, route }) => {
+  const { isAuthenticated, isLoading, clearError, onGoogleLogin, onFacebookLogin } = useContext(AuthenticationContext);
+  const { module } = route.params;
+
+  useEffect(() => {
+    if (isAuthenticated) navigation.pop();
+  }, [isAuthenticated])
+
   return (
     !isLoading ? (
       <SafeArea>
@@ -27,7 +33,7 @@ export const AccountScreen = ({ navigation }) => {
                 mode="contained"
                 onPress={() => {
                   clearError();
-                  navigation.navigate("Login")
+                  navigation.push(`${module}Login`);
                 }}
               >
                 Iniciar sesión
@@ -39,7 +45,7 @@ export const AccountScreen = ({ navigation }) => {
                 mode="contained"
                 onPress={() => {
                   clearError();
-                  navigation.navigate("Register")
+                  navigation.push(`${module}Register`);
                 }}
               >
                 Crear cuenta

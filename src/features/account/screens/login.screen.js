@@ -1,5 +1,4 @@
-import React, { useState, useContext } from "react";
-import { ActivityIndicator, Colors } from "react-native-paper";
+import React, { useState, useContext, useEffect } from "react";
 
 import { SafeArea } from "../../../components/utility/safe-area.component";
 import {
@@ -17,7 +16,12 @@ import { AuthenticationContext } from "../../../services/authentication/authenti
 export const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { onLogin, error, isLoading, clearError, clearNotification } = useContext(AuthenticationContext);
+  const { isAuthenticated, onLogin, error, isLoading, clearError, clearNotification } = useContext(AuthenticationContext);
+
+  useEffect(() => {
+    if (isAuthenticated) navigation.pop();
+  }, [isAuthenticated])
+
   return (
     <SafeArea>
       <AccountBackground>

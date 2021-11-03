@@ -6,7 +6,10 @@ import { List, Avatar } from "react-native-paper";
 import { Text } from "../../../components/typography/text.component";
 import { Spacer } from "../../../components/spacer/spacer.component";
 import { SafeArea } from "../../../components/utility/safe-area.component";
+
 import { AuthenticationContext } from "../../../services/authentication/authentication.context";
+
+import { NoSession } from "../../account/screens/no-session";
 
 const SettingsItem = styled(List.Item)`
   padding: ${(props) => props.theme.space[3]};
@@ -15,8 +18,14 @@ const AvatarContainer = styled.View`
   align-items: center;
 `;
 
-export const SettingsScreen = () => {
-  const { onLogout, currentUser } = useContext(AuthenticationContext);
+export const SettingsScreen = ({ navigation }) => {
+  const { isAuthenticated, onLogout, currentUser } = useContext(AuthenticationContext);
+
+  const redirectToLogin = () => {
+    navigation.push("SettingsAccount", { module: "Settings" });
+  }
+
+  if (!isAuthenticated) return <NoSession redirectToLogin={redirectToLogin} />;
   return (
     <SafeArea>
       <AvatarContainer>
@@ -25,7 +34,6 @@ export const SettingsScreen = () => {
           <Text variant="label">{currentUser.email}</Text>
         </Spacer>
       </AvatarContainer>
-
       <List.Section>
         <SettingsItem
           title="Cerrar sesión"

@@ -72,7 +72,10 @@ export const AuthenticationContextProvider = ({ children }) => {
   const onLogin = async (email, password) => {
     setIsLoading(true);
     try {
-      await auth().signInWithEmailAndPassword(email, password);
+      let { user } = await auth().signInWithEmailAndPassword(email, password);
+      await user.reload();
+      user = auth().currentUser;
+      if (!user.emailVerified) await onLogout();
     } catch (e) {
       setError(e.toString());
     } finally {
@@ -109,7 +112,7 @@ export const AuthenticationContextProvider = ({ children }) => {
     }
   }
 
-  const onRegister = async (email, password, displayName, repeatedPassword) => {
+  const onRegister = async (email, password, displayName, repeatedPassword, postRegister = null) => {
     clearNotification();
     if (password !== repeatedPassword) {
       setError("Error: Las contraseñas no coinciden");
@@ -124,6 +127,7 @@ export const AuthenticationContextProvider = ({ children }) => {
       await user.sendEmailVerification();
       await onLogout();
       setNotification('Se ha enviado un correo para verificar tu correo');
+      if (postRegister) postRegister();
     } catch (e) {
       setError(e.toString());
     } finally {
