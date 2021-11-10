@@ -42,6 +42,16 @@ export const SchedulesContextProvider = ({ children }) => {
     }
   }
 
+  const removeSchedule = async (id) => {
+    try {
+      await firestore().collection('schedules').doc(id).delete();
+      const filteredSchedules = schedules.filter((x) => x.id !== id).sort(orderSchedules);
+      setSchedules(filteredSchedules);
+    } catch (e) {
+      console.log(`removeSchedule error ${e}`);
+    }
+  }
+
   const orderSchedules = (a, b) => {
     if (a.timeSlot.includes('AM') && b.timeSlot.includes('PM')) return -1;
     else if (a.timeSlot.includes('PM') && b.timeSlot.includes('AM')) return 1;
@@ -61,6 +71,7 @@ export const SchedulesContextProvider = ({ children }) => {
         isSaving,
         retrieveDailySchedules,
         saveSchedule,
+        removeSchedule,
       }}
     >
       {children}

@@ -74,7 +74,7 @@ export const SchedulesDetailScreen = ({ navigation, route }) => {
                 </Spacer>
               )
               }
-              <Spacer position="top" size="large">
+              <Spacer position="top" size="large" >
                 <ScheduleInput label="Usuario" value={user} onChangeText={setUser} />
               </Spacer>
               <Spacer position="top" size="large">

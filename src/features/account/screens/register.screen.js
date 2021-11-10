@@ -1,12 +1,12 @@
 import React, { useState, useContext } from "react";
 import { ScrollView } from "react-native";
-import { ActivityIndicator, Colors } from "react-native-paper";
 
 import { SafeArea } from "../../../components/utility/safe-area.component";
 import {
   AccountBackground,
   AccountContainer,
   AuthButton,
+  AuthSecondaryButton,
   AuthInput,
   ErrorContainer,
   Title,
@@ -97,13 +97,13 @@ export const RegisterScreen = ({ navigation }) => {
             </Spacer>
           </AccountContainer>
           <Spacer size="large">
-            <AuthButton mode="contained" onPress={() => {
+            <AuthSecondaryButton mode="contained" onPress={() => {
               clearError();
               clearNotification();
               navigation.goBack()
             }}>
               Atrás
-            </AuthButton>
+            </AuthSecondaryButton>
           </Spacer>
         </AccountBackground>
       </ScrollView>

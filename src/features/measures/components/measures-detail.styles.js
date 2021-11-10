@@ -8,9 +8,3 @@ export const MeasureButton = styled(Button).attrs({
 })`
   padding: ${(props) => props.theme.space[2]};
 `;
-
-export const SuggestionsContainer = styled.View`
-  marginTop: ${(props) => props.theme.space[2]};
-  flex-direction: row;
-  justify-content: space-around;
-`;

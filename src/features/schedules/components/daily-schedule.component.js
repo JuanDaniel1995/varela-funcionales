@@ -1,13 +1,16 @@
 import React, { useState, useEffect, useContext } from "react";
-import { List, ActivityIndicator, Colors } from 'react-native-paper';
+import { StyleSheet } from "react-native";
+import { List, Colors } from 'react-native-paper';
 
 import { AuthenticationContext } from "../../../services/authentication/authentication.context";
 
 import { Schedule } from "./schedule.component";
+import { InnerLoading, Accordion } from "./schedules.styles";
 
 import { colors } from "../../../infrastructure/theme/colors";
+import { themeFonts } from "../../../infrastructure/theme/fonts";
 
-export const DailySchedule = ({ dayKey, day, schedules, isLoadingSchedules, onExpandDay, onAddSchedule }) => {
+export const DailySchedule = ({ dayKey, day, schedules, isLoadingSchedules, onExpandDay, onAddSchedule, showDialog, onToggleSnackBar }) => {
   const { currentUser } = useContext(AuthenticationContext);
   const [dailySchedules, setDailySchedules] = useState([]);
   const [expanded, setExpanded] = useState(false);
@@ -17,21 +20,46 @@ export const DailySchedule = ({ dayKey, day, schedules, isLoadingSchedules, onEx
     setExpanded(!expanded);
   };
 
+  const groupPersonsBySchedule = (daySchedules, timeSlot) => (
+    daySchedules.filter((y) => y.timeSlot === timeSlot)
+      .map((y) => ({ id: y.id, person: y.person })))
+
   useEffect(() => {
-    setDailySchedules(schedules.filter((x) => x.day === dayKey));
+    const daySchedules = schedules.filter((x) => x.day === dayKey);
+    const uniqueTimeSlots = Array.from(new Set(daySchedules.map((x) => x.timeSlot)));
+    const schedulesGrouped = uniqueTimeSlots.map((x) => ({ id: x, timeSlot: x, persons: groupPersonsBySchedule(daySchedules, x) }));
+    setDailySchedules(schedulesGrouped);
   }, [schedules])
 
   return (
-    <List.Accordion title={day} expanded={expanded} onPress={handlePress} theme={{ colors: colors.brand }}>
+    <Accordion
+      title={day}
+      expanded={expanded}
+      titleStyle={expanded ? styles.headerExpanded : styles.headerCollapsed}
+      onPress={handlePress}
+      theme={{ colors: colors.brand, fonts: themeFonts }}>
       {currentUser?.isAdmin &&
         <List.Item
           title="Agregar horario"
+          titleStyle={styles.text}
           onPress={() => onAddSchedule(dayKey, day)}
           left={props => <List.Icon {...props} icon="plus" color={colors.brand.primary} />} />}
       {isLoadingSchedules
-        ? <ActivityIndicator size={50} animating={true} color={Colors.blue300} />
-        : <Schedule schedules={dailySchedules} />
+        ? <InnerLoading size={50} animating={true} color={Colors.blue300} />
+        : <Schedule schedules={dailySchedules} isAdmin={currentUser?.isAdmin} showDialog={showDialog} />
       }
-    </List.Accordion>
+    </Accordion>
   )
 }
+
+const styles = StyleSheet.create({
+  headerExpanded: {
+    fontFamily: 'Lato-Black',
+  },
+  headerCollapsed: {
+    fontFamily: 'Lato-Regular',
+  },
+  text: {
+    fontFamily: 'Lato-Light',
+  },
+})

@@ -8,10 +8,8 @@ export const MeasuresContext = createContext();
 export const MeasuresContextProvider = ({ children }) => {
   const [users, setUsers] = useState([]);
   const [measures, setMeasures] = useState([]);
-  const [toBeMeasuredSuggestions, setToBeMeasuredSuggestions] = useState([]);
   const [isLoadingUsers, setIsLoadingUsers] = useState(false);
   const [isLoadingMeasures, setIsLoadingMeasures] = useState(false);
-  const [isLoadingToBeMeasuredSuggestions, setIsLoadingToBeMeasuredSuggestions] = useState(false);
   const [isSavingUserMeasures, setIsSavingUserMeasures] = useState(false);
   const { currentUser } = useContext(AuthenticationContext);
 
@@ -76,31 +74,20 @@ export const MeasuresContextProvider = ({ children }) => {
     }
   }
 
-  const retrieveToBeMeasuredSuggestions = async () => {
-    setIsLoadingToBeMeasuredSuggestions(true);
-    try {
-      let suggestions = []
-      const suggestionsSnapshot = await firestore().collection('toBeMeasuredSuggestions').get();
-      suggestionsSnapshot.forEach((doc) => {
-        suggestions = [...suggestions, { id: doc.id, ...doc.data() }];
-      });
-      setToBeMeasuredSuggestions(suggestions);
-    } catch (e) {
-      console.log(`retrieveToBeMeasuredSuggestions error ${e}`);
-    } finally {
-      setIsLoadingToBeMeasuredSuggestions(false);
-    }
-  }
-
-  const saveToBeMeasuredSuggestions = async (toBeMeasuredSuggestion) => {
+  const updateUserMeasure = async (uid, period, toBeMeasured, measure, documentId) => {
+    const measureData = { uid, period, toBeMeasured, measure };
+    setIsSavingUserMeasures(true);
     try {
       await firestore()
-        .collection('toBeMeasuredSuggestions')
-        .add({
-          suggestion: toBeMeasuredSuggestion
-        });
+        .collection('measures')
+        .doc(documentId)
+        .set(measureData);
+      const filteredMeasures = measures.filter((x) => x.id !== documentId)
+      setMeasures([...filteredMeasures, { id: documentId, ...measureData }])
     } catch (e) {
-      console.log(`saveToBeMeasuredSuggestions error ${e}`);
+      console.log(`updateUserMeasure error ${e}`);
+    } finally {
+      setIsSavingUserMeasures(false);
     }
   }
 
@@ -109,16 +96,13 @@ export const MeasuresContextProvider = ({ children }) => {
       value={{
         users,
         measures,
-        toBeMeasuredSuggestions,
         isLoadingUsers,
         isLoadingMeasures,
-        isLoadingToBeMeasuredSuggestions,
         isSavingUserMeasures,
         retrieveUsers,
         retrieveUserMeasures,
-        retrieveToBeMeasuredSuggestions,
-        saveToBeMeasuredSuggestions,
         saveUserMeasure,
+        updateUserMeasure,
         clearMeasures,
       }}
     >

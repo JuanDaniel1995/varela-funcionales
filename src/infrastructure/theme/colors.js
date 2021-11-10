@@ -1,8 +1,15 @@
 export const colors = {
   brand: {
-    primary: "#2182BD",
-    secondary: "#5282BD",
-    muted: "#C6DAF7",
+    primaryDark: '#1976D2',
+    primary: "#2196F3",
+    background: "#ffff",
+    surface: "#ffff",
+    accent: "#03A9F4",
+    error: "#2196F3",
+    text: "#212121",
+    onSurface: "#2196F3",
+    placeholder: "#757575",
+    muted: "#BBDEFB",
   },
   ui: {
     primary: "#262626",
@@ -14,8 +21,8 @@ export const colors = {
     success: "#138000",
   },
   bg: {
-    primary: "#FFFFFF",
-    secondary: "#F1F1F1",
+    primary: "white",
+    secondary: "white",
   },
   text: {
     primary: "#262626",

@@ -20,19 +20,25 @@ export const AccountContainer = styled.View`
 `;
 
 export const AuthButton = styled(Button).attrs({
+  color: colors.brand.primaryDark,
+})`
+  padding: ${(props) => props.theme.space[2]} 0;
+  width: 100%;
+`;
+
+export const AuthSecondaryButton = styled(Button).attrs({
   color: colors.brand.primary,
 })`
   padding: ${(props) => props.theme.space[2]} 0;
   width: 100%;
+  marginBottom: ${(props) => props.theme.space[4]};
 `;
 
 export const AuthInput = styled(TextInput)`
   width: 100%;
 `;
 
-export const ExternalLoginButton = styled(Button).attrs({
-  color: colors.brand.secondary,
-})`
+export const ExternalLoginButton = styled(Button)`
   padding: ${(props) => props.theme.space[2]} 0;
   width: 100%;
 `;
@@ -42,6 +48,8 @@ export const Title = styled(Text)`
   margin-top: ${(props) => props.theme.space[2]};
   margin-bottom: ${(props) => props.theme.space[4]};
 `;
+
+export const Paragraph = styled(Text)``;
 
 export const ErrorContainer = styled.View`
   max-width: 300px;
