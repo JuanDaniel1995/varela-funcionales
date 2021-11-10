@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState, useCallback } from "react";
 import { Colors } from "react-native-paper";
 import MonthPicker from 'react-native-month-year-picker';
 
-import { FadeInView } from "../../../components/animations/fade.animation";
 import { SafeArea } from "../../../components/utility/safe-area.component";
 import { Spacer } from "../../../components/spacer/spacer.component";
 
@@ -62,8 +61,8 @@ export const MeasuresScreen = ({ navigation }) => {
     }
   }
 
-  const onAddMeasure = (user) => {
-    navigation.navigate("MeasuresDetail", { user, period })
+  const onAddMeasure = (user, toBeMeasured, measure, id) => {
+    navigation.navigate("MeasuresDetail", { user, period, toBeMeasured, initialMeasure: measure, id })
   }
 
   const redirectToLogin = () => {
@@ -73,6 +72,7 @@ export const MeasuresScreen = ({ navigation }) => {
   useEffect(() => {
     setPeriod(moment(date).format("MM-YYYY"));
   }, [date])
+
 
   useEffect(() => {
     if (isAuthenticated) retrieveUsers();
@@ -107,16 +107,14 @@ export const MeasuresScreen = ({ navigation }) => {
               renderItem={({ item }) => {
                 return (
                   <Spacer position="bottom" size="large">
-                    <FadeInView>
-                      <UserMeasure
-                        user={item}
-                        measures={measures}
-                        isLoadingMeasures={isLoadingMeasures && uidFetched === item.uid}
-                        forceCollapseUsers={forceCollapseUsers}
-                        onExpandUser={onExpandUser}
-                        onAddMeasure={onAddMeasure}
-                      />
-                    </FadeInView>
+                    <UserMeasure
+                      user={item}
+                      measures={measures}
+                      isLoadingMeasures={isLoadingMeasures && uidFetched === item.uid}
+                      forceCollapseUsers={forceCollapseUsers}
+                      onExpandUser={onExpandUser}
+                      onAddMeasure={onAddMeasure}
+                    />
                   </Spacer>
                 );
               }}

@@ -15,6 +15,7 @@ const SettingsItem = styled(List.Item)`
   padding: ${(props) => props.theme.space[3]};
 `;
 const AvatarContainer = styled.View`
+  marginTop: ${(props) => props.theme.space[4]};
   align-items: center;
 `;
 
@@ -31,7 +32,7 @@ export const SettingsScreen = ({ navigation }) => {
       <AvatarContainer>
         <Avatar.Icon size={180} icon="human" backgroundColor="#2182BD" />
         <Spacer position="top" size="large">
-          <Text variant="label">{currentUser.email}</Text>
+          <Text>{currentUser.email}</Text>
         </Spacer>
       </AvatarContainer>
       <List.Section>

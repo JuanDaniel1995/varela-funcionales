@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import { ActivityIndicator, Colors, Paragraph } from "react-native-paper";
+import { ActivityIndicator, Colors } from "react-native-paper";
 
 import { Spacer } from "../../../components/spacer/spacer.component";
 import { SafeArea } from "../../../components/utility/safe-area.component";
@@ -9,9 +9,12 @@ import {
   AccountContainer,
   AuthButton,
   Title,
+  Paragraph,
   LoadingBackground,
   ExternalLoginButton,
 } from "../components/account.styles";
+
+import { colors } from "../../../infrastructure/theme/colors";
 
 export const AccountScreen = ({ navigation, route }) => {
   const { isAuthenticated, isLoading, clearError, onGoogleLogin, onFacebookLogin } = useContext(AuthenticationContext);
